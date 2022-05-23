@@ -33,7 +33,7 @@ class Ticket_detailsAdmin(admin.ModelAdmin):
 class BusAdmin(admin.ModelAdmin):
     list_filter = ['user', 'Busroutes']
     search_fields = ['id']
-    list_display = ['id', 'Busroutes']
+    list_display = ['id', 'Busroutes', 'user']
 
 
 class TicketappAdminSite(admin.AdminSite):
@@ -47,7 +47,7 @@ class TicketappAdminSite(admin.AdminSite):
 
     def stats_view(self, request):
         busroutes = Busroutes.objects.filter(active=True).count()
-        stats = Busroutes.objects.annotate(busroutes_count=Count('my_bus')).values('id', 'name', 'busroutes_count','pricelist')
+        stats = Busroutes.objects.annotate(busroutes_count=Count('my_bus__my_ticket')).values('id', 'name', 'busroutes_count')
 
         return TemplateResponse(request,
                                 'admin/ticket-stats.html', {
@@ -57,6 +57,7 @@ class TicketappAdminSite(admin.AdminSite):
 
 
 admin_site = TicketappAdminSite('myadmin')
+
 admin_site.register(User)
 admin_site.register(Busroutes, BusroutesAdmin)
 admin_site.register(Ticket_details, Ticket_detailsAdmin)

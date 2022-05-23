@@ -25,8 +25,10 @@ class Busroutes(ModelBase):
 
 class Bus(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    Busroutes = models.ForeignKey(Busroutes, null=True, related_query_name='my_bus', on_delete = models.CASCADE) # lọc data từ đối tượng được tham chiếu khoá ngoại
+    Busroutes = models.ForeignKey(Busroutes, null=True, related_name='bus', related_query_name='my_bus', on_delete = models.CASCADE)
     booking_date = models.DateTimeField(auto_now_add=True, null=True)
+    def __str__(self):
+        return self.Busroutes.name
 
 
 class Range_of_vehicle(models.Model):
@@ -48,14 +50,14 @@ class Car(ModelBase):
 class Ticket_details(models.Model):
     seats = models.CharField(max_length=4)
     note = models.CharField(max_length=50)
-    bus = models.ForeignKey(Bus, null=True, on_delete=models.SET_NULL)
+    bus = models.ForeignKey(Bus, null=True, related_query_name='my_ticket', on_delete=models.SET_NULL)
     car = models.ForeignKey(Car, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True, unique=False, on_delete=models.SET_NULL)
 
 
 class Comment(models.Model):
     content = models.TextField()
-    Ticket_details = models.ForeignKey(Ticket_details, on_delete=models.CASCADE)
+    Ticket_details = models.ForeignKey(Ticket_details, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
