@@ -1,17 +1,13 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from rest_framework import viewsets, generics, status, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .models import *
-from .perms import CommentOwnerPerms
 from .serializers import *
 from django.conf import settings
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.all()    #trả về các đối tượng từ view
     serializer_class = UserSerializer
 
     def get_permissions(self):
@@ -20,7 +16,7 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 
         return [permissions.AllowAny()]
 
-    @action(methods=['get'], url_path="current-user", detail=False)
+    @action(methods=['get'], url_path="current-user", detail=True)
     def current_user(self, request):
         return Response(self.serializer_class(request.user, context={'request': request}).data,
                         status=status.HTTP_200_OK)

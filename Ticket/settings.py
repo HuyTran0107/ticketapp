@@ -54,9 +54,9 @@ OAUTH2_INFO = {
     "client_id": "yP3o6HIwGfBlrvr3SaUNVrMRCt4334akSNJE2kXh",
     "client_secret": "6zJ5y79AfQbZbLCkHww5PdXK2sbF2SC0hsnTPIoY8Dpb2nHWAqvbIfdtI8UDPMZVMmA9qcI0JNtI6I3dqJVbzyxH5geUM5gHNlONYnaLRRtuxoPwzS2ZsUstNKr7vqSE"
 }
-# OAUTH2_PROVIDER = {
-#     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
-# }
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore',
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

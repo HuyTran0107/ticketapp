@@ -1,8 +1,7 @@
 from django.contrib import admin
-from django.db.models import Count
+from django.db.models import Count, Sum, ExpressionWrapper, FloatField
 from django.template.response import TemplateResponse
 from django.urls import path
-from django.utils.safestring import mark_safe
 
 from .models import *
 
@@ -43,22 +42,21 @@ class TicketappAdminSite(admin.AdminSite):
 
     def get_urls(self):
         return [
-                   path('ticket-stats/', self.stats_view)
+                   path('ticket-stats/', self.stats_view) #override get url
                ] + super().get_urls()
 
     def stats_view(self, request):
-        c = Busroutes.objects.filter(active=True).count()
-        stats = Busroutes.objects.annotate(busroutes_count=Count('my_bus')).values('id', 'name', 'busroutes_count')
+        busroutes = Busroutes.objects.filter(active=True).count()
+        stats = Busroutes.objects.annotate(busroutes_count=Count('my_bus')).values('id', 'name', 'busroutes_count','pricelist')
 
         return TemplateResponse(request,
                                 'admin/ticket-stats.html', {
-                                    'count': c,
-                                    'stats': stats
+                                    'busroutes': busroutes,
+                                    'stats': stats,
                                 })
 
 
 admin_site = TicketappAdminSite('myadmin')
-
 admin_site.register(User)
 admin_site.register(Busroutes, BusroutesAdmin)
 admin_site.register(Ticket_details, Ticket_detailsAdmin)

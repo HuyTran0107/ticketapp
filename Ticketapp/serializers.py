@@ -36,22 +36,22 @@ class UserSerializer(serializers.ModelSerializer):
 class BusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bus
-        fields = ['user', 'Busroutes', 'booking_date']
+        fields = ['id','user', 'Busroutes', 'booking_date']
 
 
 class BusroutesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Busroutes
-        fields = ['name', 'point_of_departure', 'destination', 'pricelist']
+        fields = ['id','name', 'point_of_departure', 'destination', 'pricelist']
 
 
 class CarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Car
-        fields = '__all__'
+        fields = ['id', 'license_plate', 'number_of_seats', 'range_of_vehicle']
 
 
 class Ticket_detailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket_details
-        fields = '__all__'
+        fields = ['id', 'seats', 'note', 'bus', 'car', 'user']

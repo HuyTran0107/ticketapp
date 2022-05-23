@@ -17,7 +17,7 @@ class ModelBase(models.Model):
 class Busroutes(ModelBase):
     point_of_departure = models.CharField(max_length=20, unique=False)
     destination = models.CharField(max_length=20, unique=False)
-    pricelist = models.IntegerField()
+    pricelist = models.CharField(max_length=70, null=False)
 
     def __str__(self):
         return self.name
@@ -25,8 +25,8 @@ class Busroutes(ModelBase):
 
 class Bus(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    Busroutes = models.ForeignKey(Busroutes, null=True, related_name='bus', related_query_name='my_bus', on_delete = models.CASCADE)
-    booking_date = models.DateField(auto_now_add=True, null=True)
+    Busroutes = models.ForeignKey(Busroutes, null=True, related_query_name='my_bus', on_delete = models.CASCADE) # lọc data từ đối tượng được tham chiếu khoá ngoại
+    booking_date = models.DateTimeField(auto_now_add=True, null=True)
 
 
 class Range_of_vehicle(models.Model):
@@ -55,7 +55,7 @@ class Ticket_details(models.Model):
 
 class Comment(models.Model):
     content = models.TextField()
-    Ticket_details = models.ForeignKey(Ticket_details, related_name='comments', on_delete=models.CASCADE)
+    Ticket_details = models.ForeignKey(Ticket_details, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
